@@ -3,11 +3,13 @@ const OpenAI = require('openai');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs').promises;
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(cors());
 
 const openai = new OpenAI();
 
@@ -52,9 +54,7 @@ async function getTranscript(videoId) {
         transcriptText += `${timestamp}\n${text}\n`;
       });
 
-      await fs.writeFile('transcript.txt', transcriptText, 'utf-8');
-      const fileContent = await fs.readFile('transcript.txt', 'utf-8');
-      return { text: fileContent, id: videoId };
+      return { text: transcriptText, id: videoId };
     } else {
       console.log('Captions not found...');
       return { text: '', id: videoId };
@@ -64,6 +64,8 @@ async function getTranscript(videoId) {
     return { text: '', id: videoId };
   }
 }
+
+
 
 async function summarizeTranscript(id, text, question) {
   if (!text) return;

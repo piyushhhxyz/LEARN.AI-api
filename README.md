@@ -10,6 +10,7 @@
 
 
 ## Sample POST requests:
+- Base_API: https://learnai-api.vercel.app/
 {
     "videoUrl":"https://www.youtube.com/watch?v=OEV8gMkCHXQ"
 }
