@@ -51,8 +51,10 @@ async function getTranscript(videoId) {
           .join(':');
         transcriptText += `${timestamp}\n${text}\n`;
       });
+
       await fs.writeFile('transcript.txt', transcriptText, 'utf-8');
-      return { text: transcriptText, id: videoId };
+      const fileContent = await fs.readFile('transcript.txt', 'utf-8');
+      return { text: fileContent, id: videoId };
     } else {
       console.log('Captions not found...');
       return { text: '', id: videoId };
